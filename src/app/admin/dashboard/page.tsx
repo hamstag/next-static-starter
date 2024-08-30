@@ -1,5 +1,5 @@
 "use client"
-import { useAuthContext } from "@/lib/providers/auth"
+import { useAuthContext } from "@/lib/contexts/auth"
 import Link from "next/link"
 
 export default function Dashboard() {

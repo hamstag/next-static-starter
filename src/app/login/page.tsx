@@ -1,5 +1,5 @@
 "use client"
-import { useAuthContext } from "@/lib/providers/auth"
+import { useAuthContext } from "@/lib/contexts/auth"
 import { redirect } from "next/navigation"
 import { useEffect } from "react"
 import LoginHeader from "./components/LoginHeader"
