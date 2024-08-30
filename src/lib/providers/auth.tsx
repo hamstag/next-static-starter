@@ -34,16 +34,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const [token, setToken] = useLocalStorage("token", "");
-    const [isValid, setValid] = useState(!isTokenExpired(token))
+    const isValid = !isTokenExpired(token)
 
     const save = (token: string) => {
         setToken(token)
-        setValid(true)
     }
 
     const clear = () => {
         setToken("")
-        setValid(false)
     }
 
     const value: AuthContextValue = {
