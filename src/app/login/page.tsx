@@ -14,7 +14,7 @@ export default function Login() {
 
     useEffect(() => {
         const unsub = AuthStore.onAuthChange((auth) => {
-            if (auth) {
+            if (AuthStore.isValid) {
                 router.push('/admin/dashboard')
             }
         })
@@ -35,7 +35,7 @@ export default function Login() {
         AuthStore.save(data)
     }
 
-    if (AuthStore.model) {
+    if (AuthStore.isValid) {
         return redirect('/admin/dashboard')
     }
 

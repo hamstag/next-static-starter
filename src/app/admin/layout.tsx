@@ -9,7 +9,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         const unsub = AuthStore.onAuthChange((auth) => {
-            if (!auth) {
+            if (!AuthStore.isValid) {
                 router.push('/login')
             }
         })
@@ -25,7 +25,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         return null
     }
 
-    if (!AuthStore.model) {
+    if (!AuthStore.isValid) {
         return redirect('/login')
     }
 

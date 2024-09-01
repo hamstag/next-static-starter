@@ -19,9 +19,14 @@ const AuthStore = new class {
         })
     }
 
-    public get model(): AuthModel | null {
+    get model(): AuthModel | null {
         return this.store.get(authAtom)
     }
+
+    get isValid(): boolean {
+        return !this.isTokenExpired(this.model?.accessToken ?? "")
+    }
+
 
     save(auth: AuthModel) {
         this.store.set(authAtom, auth)
@@ -29,6 +34,18 @@ const AuthStore = new class {
 
     clear() {
         this.store.set(authAtom, RESET)
+    }
+
+    isTokenExpired(token: String): boolean {
+        if (!token) return true
+        try {
+            // const decodedToken = jwtDecode(token)
+            // const currentTime = Date.now() / 1000
+            // return decodedToken.exp < currentTime
+            return false
+        } catch (error) {
+            return true
+        }
     }
 }
 
