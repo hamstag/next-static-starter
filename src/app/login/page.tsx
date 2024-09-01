@@ -1,25 +1,42 @@
 "use client"
-import { useAuthContext } from "@/lib/contexts/auth"
-import { redirect } from "next/navigation"
-import { useEffect } from "react"
 import LoginHeader from "./components/LoginHeader"
 import HelloHeader from "@/components/HelloHeader"
+import Link from "next/link"
+import { redirect, useRouter } from "next/navigation"
+import LoginService from "./service"
+import { useEffect, useState } from "react"
+import AuthStore from "@/lib/stores/auth"
 
 export default function Login() {
-    const { isValid, save } = useAuthContext()
+    const [isClient, setIsClient] = useState(false)
+    const router = useRouter()
+    const loginService = new LoginService()
 
     useEffect(() => {
-        if (isValid) {
-            return redirect("/admin/dashboard")
-        }
+        const unsub = AuthStore.onAuthChange((auth) => {
+            if (auth) {
+                router.push('/admin/dashboard')
+            }
+        })
+
+        return () => unsub()
     })
 
-    if (isValid) {
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
+
+    if (!isClient) {
         return null
     }
 
-    const login = () => {
-        save("1234")
+    const login = async () => {
+        const data = await loginService.login("aa", "bb")
+        AuthStore.save(data)
+    }
+
+    if (AuthStore.model) {
+        return redirect('/admin/dashboard')
     }
 
     return (
@@ -28,6 +45,9 @@ export default function Login() {
                 <HelloHeader />
                 <LoginHeader />
                 <ul>
+                    <li>
+                        <Link href="/">Go to Home</Link>
+                    </li>
                     <li>
                         <button onClick={login}>Login</button>
                     </li>

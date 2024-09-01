@@ -1,9 +1,11 @@
 "use client"
-import { useAuthContext } from "@/lib/contexts/auth"
+import AuthStore from "@/lib/stores/auth"
 import Link from "next/link"
 
 export default function Dashboard() {
-    const { clear } = useAuthContext()
+    const clear = () => {
+        AuthStore.clear()
+    }
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
