@@ -29,7 +29,21 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         return redirect('/login')
     }
 
+    const logout = () => {
+        AuthStore.clear()
+    }
+
     return (
-        <div>{children}</div>
+        <div>
+            <nav>
+                <span>Hello, {AuthStore.model?.name} {AuthStore.model?.surename}</span>
+                <ul>
+                    <li>
+                        <button type="button" onClick={logout}>Logout</button>
+                    </li>
+                </ul>
+            </nav>
+            {children}
+        </div>
     )
 }

@@ -5,7 +5,8 @@ import Link from "next/link"
 import { redirect, useRouter } from "next/navigation"
 import LoginService from "./service"
 import { useEffect, useState } from "react"
-import AuthStore from "@/lib/stores/auth"
+import AuthStore, { authAtom } from "@/lib/stores/auth"
+import { useAtomValue } from "jotai"
 
 export default function Login() {
     const [isClient, setIsClient] = useState(false)
@@ -44,6 +45,7 @@ export default function Login() {
             <div>
                 <HelloHeader />
                 <LoginHeader />
+                <NameComponent />
                 <ul>
                     <li>
                         <Link href="/">Go to Home</Link>
@@ -54,5 +56,15 @@ export default function Login() {
                 </ul>
             </div>
         </main>
+    )
+}
+
+const NameComponent = () => {
+    const auth = useAtomValue(authAtom)
+
+    return (
+        <div>
+            Name: {auth?.name}
+        </div>
     )
 }

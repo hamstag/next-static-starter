@@ -1,4 +1,4 @@
-import { getDefaultStore } from 'jotai';
+import { createStore, getDefaultStore } from 'jotai';
 import { atomWithStorage, RESET } from 'jotai/utils'
 
 interface AuthModel {
@@ -10,8 +10,12 @@ interface AuthModel {
 
 const authAtom = atomWithStorage<AuthModel | null>("auth", null)
 
-const AuthStore = new class {
-    store = getDefaultStore()
+const AuthStore = new class AuthStore {
+    private _store = createStore()
+
+    get store() {
+        return this._store
+    }
 
     onAuthChange(listener: (auth: AuthModel | null) => void) {
         return this.store.sub(authAtom, () => {
@@ -26,7 +30,6 @@ const AuthStore = new class {
     get isValid(): boolean {
         return !this.isTokenExpired(this.model?.accessToken ?? "")
     }
-
 
     save(auth: AuthModel) {
         this.store.set(authAtom, auth)
